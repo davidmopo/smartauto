@@ -1,0 +1,10 @@
+targets:
+  $default:
+    builders:
+      mockito|mockBuilder:
+        generate_for:
+          - test/**_test.dart
+        options:
+          # Mock behavior configuration
+          linkToReal: true
+          excludeNullReturns: true
