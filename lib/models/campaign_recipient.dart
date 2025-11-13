@@ -179,14 +179,17 @@ class CampaignRecipient extends Equatable {
       'body': body,
       'step_number': stepNumber,
       'status': status.name,
-      'scheduled_at': scheduledAt != null ? Timestamp.fromDate(scheduledAt!) : null,
+      'scheduled_at':
+          scheduledAt != null ? Timestamp.fromDate(scheduledAt!) : null,
       'sent_at': sentAt != null ? Timestamp.fromDate(sentAt!) : null,
-      'delivered_at': deliveredAt != null ? Timestamp.fromDate(deliveredAt!) : null,
+      'delivered_at':
+          deliveredAt != null ? Timestamp.fromDate(deliveredAt!) : null,
       'opened_at': openedAt != null ? Timestamp.fromDate(openedAt!) : null,
       'clicked_at': clickedAt != null ? Timestamp.fromDate(clickedAt!) : null,
       'replied_at': repliedAt != null ? Timestamp.fromDate(repliedAt!) : null,
       'bounced_at': bouncedAt != null ? Timestamp.fromDate(bouncedAt!) : null,
-      'unsubscribed_at': unsubscribedAt != null ? Timestamp.fromDate(unsubscribedAt!) : null,
+      'unsubscribed_at':
+          unsubscribedAt != null ? Timestamp.fromDate(unsubscribedAt!) : null,
       'open_count': openCount,
       'click_count': clickCount,
       'bounce_reason': bounceReason,
@@ -218,7 +221,9 @@ class CampaignRecipient extends Equatable {
       scheduledAt: data['scheduled_at'] != null
           ? (data['scheduled_at'] as Timestamp).toDate()
           : null,
-      sentAt: data['sent_at'] != null ? (data['sent_at'] as Timestamp).toDate() : null,
+      sentAt: data['sent_at'] != null
+          ? (data['sent_at'] as Timestamp).toDate()
+          : null,
       deliveredAt: data['delivered_at'] != null
           ? (data['delivered_at'] as Timestamp).toDate()
           : null,
@@ -305,4 +310,3 @@ class CampaignRecipient extends Equatable {
     );
   }
 }
-

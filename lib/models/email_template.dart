@@ -10,7 +10,8 @@ class EmailTemplate extends Equatable {
   final String htmlBody;
   final String? plainTextBody;
   final String? description;
-  final List<String> variables; // List of variables used in template (e.g., ['firstName', 'company'])
+  final List<String>
+  variables; // List of variables used in template (e.g., ['firstName', 'company'])
   final TemplateCategory category;
   final List<String> tags;
   final bool isDefault;
@@ -45,25 +46,25 @@ class EmailTemplate extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        userId,
-        name,
-        subject,
-        htmlBody,
-        plainTextBody,
-        description,
-        variables,
-        category,
-        tags,
-        isDefault,
-        isActive,
-        createdAt,
-        updatedAt,
-        usageCount,
-        averageOpenRate,
-        averageClickRate,
-        variantIds,
-      ];
+    id,
+    userId,
+    name,
+    subject,
+    htmlBody,
+    plainTextBody,
+    description,
+    variables,
+    category,
+    tags,
+    isDefault,
+    isActive,
+    createdAt,
+    updatedAt,
+    usageCount,
+    averageOpenRate,
+    averageClickRate,
+    variantIds,
+  ];
 
   /// Create a copy with updated fields
   EmailTemplate copyWith({
@@ -222,10 +223,7 @@ class EmailTemplate extends Equatable {
   }
 
   /// Replace variables in content with actual values
-  static String replaceVariables(
-    String content,
-    Map<String, String> values,
-  ) {
+  static String replaceVariables(String content, Map<String, String> values) {
     String result = content;
     values.forEach((key, value) {
       result = result.replaceAll('{{$key}}', value);
@@ -235,7 +233,7 @@ class EmailTemplate extends Equatable {
 
   /// Get performance score (0-100)
   double get performanceScore {
-    if (averageOpenRate == null && averageClickRate == null) return 0;
+    if (averageOpenRate == null && averageClickRate == null) return null;
     final openScore = (averageOpenRate ?? 0) * 0.6;
     final clickScore = (averageClickRate ?? 0) * 0.4;
     return (openScore + clickScore) * 100;
@@ -286,4 +284,3 @@ extension TemplateCategoryExtension on TemplateCategory {
     }
   }
 }
-

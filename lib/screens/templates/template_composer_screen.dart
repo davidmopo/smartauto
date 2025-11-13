@@ -36,6 +36,8 @@ class _TemplateComposerScreenState extends State<TemplateComposerScreen>
   final _descriptionController = TextEditingController();
 
   late QuillController _quillController;
+  late FocusNode _focusNode;
+  late ScrollController _scrollController;
   final TemplateService _templateService = TemplateService();
 
   Timer? _autoSaveTimer;
@@ -147,13 +149,13 @@ class _TemplateComposerScreenState extends State<TemplateComposerScreen>
       );
       _quillController.updateSelection(
         TextSelection.collapsed(offset: _quillController.document.length),
-        ChangeSource.local,
+        ChangeSource.LOCAL,
       );
     } else {
       _quillController.document.insert(index, insertText);
       _quillController.updateSelection(
         TextSelection.collapsed(offset: index + insertText.length),
-        ChangeSource.local,
+        ChangeSource.LOCAL,
       );
     }
   }
@@ -206,6 +208,10 @@ class _TemplateComposerScreenState extends State<TemplateComposerScreen>
   void initState() {
     super.initState();
     _initializeShortcuts();
+
+    // Initialize FocusNode and ScrollController
+    _focusNode = FocusNode();
+    _scrollController = ScrollController();
 
     // Initialize Quill controller
     if (widget.template != null) {
@@ -427,6 +433,9 @@ class _TemplateComposerScreenState extends State<TemplateComposerScreen>
     _subjectController.dispose();
     _descriptionController.dispose();
     _quillController.dispose();
+    _focusNode.dispose();
+    _scrollController.dispose();
+    _editorFocusNode.dispose();
     super.dispose();
   }
 
@@ -672,10 +681,8 @@ class _TemplateComposerScreenState extends State<TemplateComposerScreen>
               subject: _subjectController.text,
               content: _quillController.document.toPlainText(),
             )
-          : QuillEditor(
-              controller: _quillController,
-              focusNode: FocusNode(),
-              scrollController: ScrollController(),
+          : QuillToolbar(
+              sharedConfigurations: const QuillSharedConfigurations(),
             ),
     );
   }
@@ -696,7 +703,7 @@ class _TemplateComposerScreenState extends State<TemplateComposerScreen>
           const Text('Category', style: TextStyle(fontWeight: FontWeight.w500)),
           const SizedBox(height: 8),
           DropdownButtonFormField<TemplateCategory>(
-            value: _selectedCategory,
+            initialValue: _selectedCategory,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -919,9 +926,8 @@ class _TemplateComposerScreenState extends State<TemplateComposerScreen>
     ];
 
     final lowercaseContent = content.toLowerCase();
-    final foundTriggers = spamTriggers
-        .where((word) => lowercaseContent.contains(word))
-        .toList();
+    final foundTriggers =
+        spamTriggers.where((word) => lowercaseContent.contains(word)).toList();
 
     if (foundTriggers.isNotEmpty) {
       _validationErrors['spam'] =

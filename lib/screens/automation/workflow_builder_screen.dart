@@ -21,7 +21,7 @@ class _WorkflowBuilderScreenState extends State<WorkflowBuilderScreen> {
   // Form fields
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
-  
+
   TriggerType _selectedTriggerType = TriggerType.emailOpened;
   final List<AutomationAction> _actions = [];
   bool _isSaving = false;
@@ -48,7 +48,8 @@ class _WorkflowBuilderScreenState extends State<WorkflowBuilderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.workflow == null ? 'Create Automation' : 'Edit Automation'),
+        title: Text(
+            widget.workflow == null ? 'Create Automation' : 'Edit Automation'),
         actions: [
           TextButton.icon(
             onPressed: _isSaving ? null : _saveWorkflow,
@@ -322,7 +323,7 @@ class _WorkflowBuilderScreenState extends State<WorkflowBuilderScreen> {
     try {
       final workflow = AutomationWorkflow(
         id: widget.workflow?.id ?? '',
-        userId: _currentUser.uid,
+        userId: _currentUser!.uid,
         name: _nameController.text,
         description: _descriptionController.text.isEmpty
             ? null
@@ -365,4 +366,3 @@ class _WorkflowBuilderScreenState extends State<WorkflowBuilderScreen> {
     }
   }
 }
-

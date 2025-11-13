@@ -34,7 +34,7 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
 
     try {
       final workflows = await _automationService.getWorkflows(
-        _currentUser.uid,
+        _currentUser!.uid,
         status: _filterStatus,
       );
 
@@ -57,7 +57,10 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
 
     return _workflows.where((workflow) {
       return workflow.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-          (workflow.description?.toLowerCase().contains(_searchQuery.toLowerCase()) ?? false);
+          (workflow.description
+                  ?.toLowerCase()
+                  .contains(_searchQuery.toLowerCase()) ??
+              false);
     }).toList();
   }
 
@@ -231,17 +234,19 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
                       children: [
                         Text(
                           workflow.name,
-                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                         ),
                         if (workflow.description != null) ...[
                           const SizedBox(height: 4),
                           Text(
                             workflow.description!,
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  color: Colors.grey[600],
-                                ),
+                            style:
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: Colors.grey[600],
+                                    ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -536,4 +541,3 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
     }
   }
 }
-

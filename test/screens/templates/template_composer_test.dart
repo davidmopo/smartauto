@@ -203,9 +203,8 @@ class MockTemplateService implements TemplateService {
   @override
   Future<void> deleteVariant(String variantId) async {
     for (final templateId in _variants.keys) {
-      _variants[templateId] = _variants[templateId]!
-          .where((v) => v.id != variantId)
-          .toList();
+      _variants[templateId] =
+          _variants[templateId]!.where((v) => v.id != variantId).toList();
     }
   }
 
@@ -269,20 +268,18 @@ class MockTemplateService implements TemplateService {
   @override
   Future<void> restoreVersion(String templateId, String versionId) async {
     final version = await getVersion(versionId);
-    if (version != null) {
-      final template = _templates[templateId];
-      if (template != null) {
-        _templates[templateId] = template.copyWith(
-          name: version.name,
-          subject: version.subject,
-          htmlBody: version.htmlBody,
-          plainTextBody: version.plainTextBody,
-          description: version.description,
-          variables: version.variables,
-          tags: version.tags,
-          updatedAt: DateTime.now(),
-        );
-      }
+    final template = _templates[templateId];
+    if (template != null) {
+      _templates[templateId] = template.copyWith(
+        name: version.name,
+        subject: version.subject,
+        htmlBody: version.htmlBody,
+        plainTextBody: version.plainTextBody,
+        description: version.description,
+        variables: version.variables,
+        tags: version.tags,
+        updatedAt: DateTime.now(),
+      );
     }
   }
 
